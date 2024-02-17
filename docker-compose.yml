@@ -5,5 +5,5 @@ services:
     volumes:
       - ./app:/app
     ports:
-      - "21080:80"
+      - "21080:8000"
     build: .
