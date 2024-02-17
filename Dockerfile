@@ -8,9 +8,9 @@ WORKDIR /app
 # 필요한 Python 모듈 설치
 COPY ./app /app
 
-RUN pip install uvicorn Flask
+RUN pip install Flask
 RUN pip install --no-cache-dir -r latest.txt
-RUN pip install gunicorn uvicorn[standard]
+RUN pip install gunicorn
 
 
 # Uvicorn 서버 실행
