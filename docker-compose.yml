@@ -4,6 +4,7 @@ services:
     container_name: compose.jpotv.yangarch.net
     volumes:
       - ./app:/app
+      - /root/.ssh:/root/.ssh
     ports:
       - "21080:8000"
     build: .

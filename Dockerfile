@@ -9,15 +9,6 @@ COPY ./config /config
 COPY ./config/crontab.txt /etc/cron.d/crontab.txt
 COPY start.sh /start.sh
 
-# SSH 키 추가
-ADD .ssh/id_rsa /root/.ssh/id_rsa
-ADD .ssh/id_rsa.pub /root/.ssh/id_rsa.pub
-
-# 필요한 경우 권한 설정
-RUN chmod 600 /root/.ssh/id_rsa && \
-    chmod 644 /root/.ssh/id_rsa.pub && \
-    ssh-keyscan 192.168.50.176 >> /root/.ssh/known_hosts
-
 RUN chmod +x /config/fetch_file.sh
 
 # 작업 디렉토리 설정
