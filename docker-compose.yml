@@ -1,11 +1,9 @@
 version: '2'
 services:
-  compose.webhook.bitmango.com:
-    container_name: compose.webhook.bitmango.com
+  compose.jpotv.yangarch.net:
+    container_name: compose.jpotv.yangarch.net
     volumes:
       - ./app:/app
     ports:
       - "21080:80"
     build: .
-    environment:
-      PYTHONPATH: /app/dough
