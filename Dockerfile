@@ -2,6 +2,12 @@
 # cause of web1's circumstances, need to use bullseye image.
 FROM python:3.10.13
 
+RUN apt-get update && apt-get install -y cron
+
+COPY ./config /config
+# crontab.txt 파일을 컨테이너 내부에 복사
+COPY ./config/crontab.txt /etc/cron.d/crontab.txt
+
 # 작업 디렉토리 설정
 WORKDIR /app
 
@@ -12,11 +18,25 @@ RUN pip install Flask
 RUN pip install --no-cache-dir -r latest.txt
 RUN pip install gunicorn
 
+# SSH 키 추가
+ADD .ssh/id_rsa /root/.ssh/id_rsa
+ADD .ssh/id_rsa.pub /root/.ssh/id_rsa.pub
 
-# Uvicorn 서버 실행
-# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+# 필요한 경우 권한 설정
+RUN chmod 600 /root/.ssh/id_rsa && \
+    chmod 644 /root/.ssh/id_rsa.pub && \
+    ssh-keyscan 192.168.50.176 >> /root/.ssh/known_hosts
+
+RUN chmod +x /config/fetch_file.sh
+
+# 파일 권한 설정 및 Crontab에 작업 등록
+RUN chmod 0644 /etc/cron.d/crontab.txt \
+    && crontab /etc/cron.d/crontab.txt
+
+# 커스텀 스크립트를 사용하여 애플리케이션과 Crontab 실행
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
 
-# Gunicorn으로 Uvicorn 워커 실행
-CMD ["gunicorn", "main:app", "-w", "4", "-b", "0.0.0.0:8000"]
+CMD ["/start.sh"]
