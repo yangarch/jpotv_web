@@ -1,0 +1,23 @@
+body {
+  background-color: black;
+}
+
+.list-group {
+  height: 110px;
+  padding: 0px;
+  overflow: auto;
+}
+
+.video-container {
+  height: 550px;
+  border: 1px solid gray;
+}
+
+#player {
+  width: 100%;
+  height: 100%;
+}
+
+#capturePlayer {
+  margin-top: 500px;
+}

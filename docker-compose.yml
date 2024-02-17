@@ -1,0 +1,11 @@
+version: '2'
+services:
+  compose.webhook.bitmango.com:
+    container_name: compose.webhook.bitmango.com
+    volumes:
+      - ./app:/app
+    ports:
+      - "21080:80"
+    build: .
+    environment:
+      PYTHONPATH: /app/dough
