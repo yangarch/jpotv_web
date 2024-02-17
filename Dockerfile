@@ -16,5 +16,7 @@ RUN pip install gunicorn uvicorn[standard]
 # Uvicorn 서버 실행
 # CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
 
+EXPOSE 8000
+
 # Gunicorn으로 Uvicorn 워커 실행
 CMD ["gunicorn", "main:app", "-w", "4", "-b", "0.0.0.0:8000"]
