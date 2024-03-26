@@ -11,7 +11,7 @@ def read_file():
     file_path = '/app/data/result/output.json'
     try:
         with open(file_path, 'r') as file:
-            return file.read(), 200, {'Content-Type': 'text/plain'}
+            return file.read(), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         return str(e), 500, {'Content-Type': 'text/plain'}
 
