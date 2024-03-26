@@ -1,5 +1,4 @@
 const player = videojs("player");
-const capturePlayer = videojs("capturePlayer");
 
 $(function () {
   fetch("/output")
@@ -9,79 +8,63 @@ $(function () {
       }
       return response.json();
     })
-    .then(async (data) => {
-      /** 데이터 초기화 및 플레이어 세팅 */
+    .then((data) => {
+      /** 플레이어 세팅 */
       const channelList = Object.keys(data);
       player.controlBar.addChild("qualitySelector");
 
-      /** 채널 버튼 생성 (텍스트만)*/
+      /** 채널 버튼 생성*/
       channelList.forEach((channel) => {
-        let canvas = document.createElement("canvas");
-        let context = canvas.getContext("2d");
+        let channelData = data[channel];
 
-        canvas.id = channel + "Thumbnail";
-        canvas.style.border = "1px solid gray";
-        canvas.style.cursor = "pointer";
-        canvas.width = 192;
-        canvas.height = 110;
+        let thumbnail = document.createElement("div");
+        thumbnail.classList.add("thumbnail");
 
-        context.font = "16px Arial";
-        context.fillStyle = "black";
-        context.strokeStyle = "white";
-        context.lineWidth = 3;
+        let img = document.createElement("img");
+        img.width = 192;
+        img.height = 110;
+        img.src = channelData.img || "/static/images/index.png";
 
-        context.strokeText(channel, 10, 20);
-        context.fillText(channel, 10, 20);
+        let text = document.createElement("span");
+        text.textContent = channel;
+        text.classList.add("thumbnail-text");
 
-        canvas.addEventListener("click", () => {
-          let qualityList = Object.entries(data[channel]);
+        thumbnail.addEventListener("click", () => {
           player.src(
-            qualityList.map(([label, url], index) => ({
-              src: url,
-              type: "application/x-mpegURL",
-              label: label + "P",
-              selected: label === "1080",
-            }))
+            Object.entries(channelData)
+              .filter(([label, url]) => label !== "img")
+              .map(([label, url]) => ({
+                src: url,
+                type: "application/x-mpegURL",
+                label: label + "P",
+                selected: label === "1080",
+              }))
           );
         });
 
-        document.querySelector(".list-group").appendChild(canvas);
+        thumbnail.appendChild(img);
+        thumbnail.appendChild(text);
+        document.getElementById("channel-list").appendChild(thumbnail);
       });
 
       /** 첫번째 채널 강제 셋팅 */
+      const firstChannel = channelList[0];
+      const firstChannelData = data[firstChannel];
       player.src(
-        Object.entries(data[channelList[0]]).map(([label, url], index) => ({
-          src: url,
-          type: "application/x-mpegURL",
-          label: label + "P",
-          selected: label === "1080",
-        }))
+        Object.entries(firstChannelData)
+          .filter(([label, url]) => label !== "img")
+          .map(([label, url]) => ({
+            src: url,
+            type: "application/x-mpegURL",
+            label: label + "P",
+            selected: label === "1080",
+          }))
       );
 
       /** 주소 복사 URL 갱신 */
       player.on("loadedmetadata", function (e) {
         document.getElementById("url").value = player.currentSrc();
       });
-
-      /** 채널 버튼 썸네일 추가 */
-      let video = document.querySelector("#capturePlayer video");
-      for (const channel of channelList) {
-        capturePlayer.src({ src: data[channel]["1080"], type: "application/x-mpegURL" });
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            let canvas = document.getElementById(channel + "Thumbnail");
-            let context = canvas.getContext("2d");
-
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            context.strokeText(channel, 10, 20);
-            context.fillText(channel, 10, 20);
-
-            resolve();
-          }, 1000);
-        });
-      }
-      videojs(video).dispose();
     })
     .catch((error) => {
       console.error(error);
