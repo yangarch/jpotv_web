@@ -1,0 +1,9 @@
+version: '2'
+services:
+  compose.jpotv.yangarch.net:
+    container_name: compose.jpotv.yangarch.net
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "21080:80"
