@@ -23,7 +23,30 @@ $(function () {
         let img = document.createElement("img");
         img.width = 192;
         img.height = 110;
-        img.src = channelData.img || "/static/images/index.png";
+        // 이미지 파일이 존재하는지 체크하는 함수
+        function checkImageExists(url, callback) {
+          fetch(url)
+            .then((response) => {
+              if (response.ok) {
+                callback(true);
+              } else {
+                callback(false);
+              }
+            })
+            .catch(() => {
+              callback(false);
+            });
+        }
+
+        // /output 폴더에 channel.png가 있는지 확인
+        let imgPath = `/output/${channel}.png`;
+        checkImageExists(imgPath, (exists) => {
+          if (exists) {
+            img.src = imgPath; // 파일이 존재하면 해당 경로의 이미지를 사용
+          } else {
+            img.src = "/static/images/index.png"; // 파일이 없으면 기본 이미지 사용
+          }
+        });
 
         let text = document.createElement("span");
         text.textContent = channel;
