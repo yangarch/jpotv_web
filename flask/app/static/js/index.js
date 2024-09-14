@@ -39,7 +39,7 @@ $(function () {
         }
 
         // /output 폴더에 channel.png가 있는지 확인
-        let imgPath = `/output/thumbnail/${channel}.png`;
+        let imgPath = `/static/thumbnail/${channel}.png`;
         checkImageExists(imgPath, (exists) => {
           if (exists) {
             img.src = imgPath; // 파일이 존재하면 해당 경로의 이미지를 사용
