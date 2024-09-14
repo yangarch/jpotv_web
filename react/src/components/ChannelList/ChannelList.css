@@ -1,0 +1,17 @@
+.channel-list-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0px;
+}
+
+.channel-list-container .list-group-item {
+  display: inline-block;
+}
+
+.list-group-horizontal > .list-group-item:first-child:not(:last-child) {
+  border-bottom-left-radius: 0 !important;
+}
+
+.list-group-horizontal > .list-group-item:last-child:not(:first-child) {
+  border-bottom-right-radius: 0 !important;
+}
