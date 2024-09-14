@@ -13,8 +13,8 @@ REMOTE_FOLDER_PATH="/Users/archmacmini/Project/jpotv/result/thumbnail"
 # 로컬에서 파일을 저장할 경로
 LOCAL_SAVE_PATH="/app/data/result/output.json"
 
-# 로컬에서 폴더를 저장할 경로
-LOCAL_FOLDER_SAVE_PATH="/app/data/result/thumbnail"
+# 로컬에서 폴더를 저장할 경로 
+LOCAL_FOLDER_SAVE_PATH="/app/static/thumbnail"
 
 # SCP를 사용하여 파일 전송
 scp "$REMOTE_USER@$REMOTE_IP:$REMOTE_FILE_PATH" "$LOCAL_SAVE_PATH"
