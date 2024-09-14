@@ -42,7 +42,24 @@ $(function () {
         let imgPath = `/static/thumbnail/${channel}.png`;
         checkImageExists(imgPath, (exists) => {
           if (exists) {
-            img.src = imgPath; // 파일이 존재하면 해당 경로의 이미지를 사용
+            fetch(imgPath)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return response.blob();
+              })
+              .then(blob => {
+                // 파일 크기가 10k 미만인지 확인
+                if (blob.size < 10 * 1024) {
+                  img.src = "/static/images/index.png"; // 파일 크기가 10k 미만이면 기본 이미지 사용
+                } else {
+                  img.src = imgPath; // 크기가 적절하면 해당 경로의 이미지를 사용
+                }
+              })
+              .catch(() => {
+                img.src = "/static/images/index.png"; // 에러 발생 시 기본 이미지 사용
+              });
           } else {
             img.src = "/static/images/index.png"; // 파일이 없으면 기본 이미지 사용
           }
