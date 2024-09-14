@@ -1,0 +1,21 @@
+# Build the React app
+FROM node:18.17.0 AS build
+
+RUN apt-get update && apt-get install -y cron
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# Serve the React app with Nginx
+FROM nginx:alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
