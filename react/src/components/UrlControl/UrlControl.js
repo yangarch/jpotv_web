@@ -1,9 +1,12 @@
 import React from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
 
+import "./UrlControl.css";
+
 const UrlControl = ({ url }) => {
   const copyText = () => {
-    navigator.clipboard.writeText(url); // 클립보드에 URL 복사
+    navigator.clipboard.writeText(url);
+    alert("복사완료");
   };
 
   return (

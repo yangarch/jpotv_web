@@ -1,0 +1,13 @@
+.input-group {
+  padding: 0 !important;
+}
+
+.input-group input[type="text"] {
+  border-top-left-radius: 0px;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.input-group button {
+  border-top-right-radius: 0px;
+}
