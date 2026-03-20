@@ -7,6 +7,8 @@ const HlsPlayer = ({ src }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
+    if (!src || typeof src !== "string") return;
+
     if (Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(src);
@@ -15,6 +17,7 @@ const HlsPlayer = ({ src }) => {
         videoRef.current.muted = true;
         videoRef.current.play();
       });
+      return () => hls.destroy();
     } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
       videoRef.current.src = src;
       videoRef.current.muted = true;
