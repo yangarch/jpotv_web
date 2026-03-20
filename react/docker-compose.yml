@@ -5,5 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - /root/.ssh:/root/.ssh
     ports:
       - "21080:3000"
