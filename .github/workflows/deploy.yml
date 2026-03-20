@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-react:
+    runs-on: self-hosted
+    if: contains(toJSON(github.event.commits.*.modified), 'react/') || contains(toJSON(github.event.commits.*.added), 'react/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy React
+        working-directory: ./react
+        run: |
+          docker compose down
+          docker compose up --build -d
+
+  deploy-flask:
+    runs-on: self-hosted
+    if: contains(toJSON(github.event.commits.*.modified), 'flask/') || contains(toJSON(github.event.commits.*.added), 'flask/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy Flask
+        working-directory: ./flask
+        run: |
+          docker compose down
+          docker compose up --build -d
