@@ -37,3 +37,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 768px) {
+  .list-group-horizontal {
+    flex-wrap: wrap !important;
+    overflow-x: visible;
+  }
+
+  .list-group-horizontal > .list-group-item {
+    width: 33.333%;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+
+  .list-group-horizontal > .list-group-item:last-child {
+    border-right: 0;
+  }
+
+  .list-group-horizontal > .list-group-item img {
+    width: 100%;
+    height: auto;
+  }
+}

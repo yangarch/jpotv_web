@@ -5,3 +5,9 @@
 h3 {
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .row {
+    padding: 0;
+  }
+}
