@@ -16,7 +16,10 @@ const App = () => {
     fetch("/output.json")
       .then((response) => response.json())
       .then((data) => {
-        const channelArray = Object.entries(data).map(([channel, url]) => ({ channel, url }));
+        const channelArray = Object.entries(data).map(([channel, qualities]) => ({
+          channel,
+          url: qualities["1080"],
+        }));
         setChannels(channelArray);
 
         if (channelArray.length > 0) {
